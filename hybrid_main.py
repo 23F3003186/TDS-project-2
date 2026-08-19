@@ -5,7 +5,8 @@ Based on someonesproject2's design with compatibility for your existing setup.
 """
 
 from fastapi import FastAPI, Request, BackgroundTasks, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from hybrid_agent import run_agent
 from dotenv import load_dotenv
@@ -57,7 +58,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 START_TIME = time.time()
+
+
+@app.get("/")
+def read_root():
+    """Serve the interactive guide & task dispatcher UI."""
+    index_path = os.path.join(STATIC_DIR, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {
+        "status": "ok",
+        "message": "Hybrid Quiz Solver API is running. Access /healthz or /quiz."
+    }
 
 
 @app.get("/healthz")

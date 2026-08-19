@@ -13,13 +13,20 @@ An intelligent quiz-solving agent using LangGraph with Gemini and OpenAI fallbac
 
 ## Features
 
-- 🔄 Smart API key rotation (Gemini)
-- 🛡️ Automatic OpenAI fallback
-- 📊 Visualization support
-- 🎯 Multi-tool agent (web scraping, code execution, ML, etc.)
-- 📝 Timestamped logging
+- 🖥️ **Interactive Web UI**: Built-in dashboard at `/` for live task dispatching, diagnostics, and code generation
+- 🔄 **Smart API Key Rotation**: Dynamic round-robin cycling across multiple Gemini keys
+- 🛡️ **Automatic OpenAI Fallback**: Zero-downtime failover to OpenAI if Gemini quotas exhaust
+- 📊 **Visualization Engine**: Matplotlib/Seaborn charting with Base64 PNG encoding
+- 🎯 **Multi-Tool Agent**: Playwright web scraping, Python sandbox, Gemini Vision OCR, Speech STT
+- 📝 **Timestamped & Gist Logging**: Dual-stream console/file logging and automatic GitHub Gist sync
 
-## API Endpoints
+## API & Web Endpoints
+
+### Interactive Web UI
+```bash
+GET /
+```
+Access the responsive web dashboard with live health stats, interactive task dispatcher, and dynamic cURL/Python/JavaScript code generator.
 
 ### Health Check
 ```bash

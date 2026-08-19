@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybrid Quiz Solver | Autonomous Multi-Modal Agent</title>
+  <meta name="description" content="Intelligent autonomous agent powered by LangGraph, Gemini 2.5 Flash with API key rotation, and OpenAI fallback for solving complex data science, machine learning, and multimodal quiz chains.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="navbar container">
+    <a href="/" class="nav-brand" id="navBrand">
+      <div class="brand-icon">🤖</div>
+      <div>
+        <span class="brand-title">Hybrid Solver</span>
+        <span class="brand-badge">v1.0</span>
+      </div>
+    </a>
+    
+    <div class="nav-links">
+      <div class="nav-status" id="navStatusBadge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="serverStatus">Checking Status...</span>
+      </div>
+      <a href="#quickstart" class="nav-link">Quickstart</a>
+      <a href="#architecture" class="nav-link">Architecture</a>
+      <a href="#tools" class="nav-link">Tools</a>
+      <a href="#endpoints" class="nav-link">API Docs</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>⚡ LangGraph Powered Cyclic Agent</span>
+      </div>
+      <h1 class="hero-title">
+        Autonomous <span class="gradient-text">Data Science & Multi-Modal</span> Quiz Solver
+      </h1>
+      <p class="hero-subtitle">
+        An intelligent, resilient agent engineered with dynamic API key rotation, automatic OpenAI fallback, headless browser automation, and a secure Python code execution sandbox.
+      </p>
+      
+      <div class="hero-features">
+        <div class="feature-tag"><span>🔄</span> Smart Key Rotation</div>
+        <div class="feature-tag"><span>🛡️</span> Zero-Downtime OpenAI Fallback</div>
+        <div class="feature-tag"><span>🌐</span> Headless Playwright DOM Extraction</div>
+        <div class="feature-tag"><span>📊</span> Base64 Chart Generation</div>
+        <div class="feature-tag"><span>👁️</span> Vision OCR & Audio STT</div>
+      </div>
+    </section>
+
+    <!-- Interactive Console & Architecture Grid -->
+    <div class="dashboard-grid" id="quickstart">
+      <!-- Interactive Dispatch Card -->
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>🚀</span>
+            <h3>Interactive Task Dispatcher</h3>
+          </div>
+          <span class="card-badge">Live API</span>
+        </div>
+        
+        <form id="quizForm">
+          <div class="form-group">
+            <label for="quizUrl" class="form-label">
+              Quiz Starting URL <span class="req">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔗</span>
+              <input 
+                type="url" 
+                id="quizUrl" 
+                class="form-input" 
+                placeholder="https://tds-quiz.org/task-1.html" 
+                required
+              >
+            </div>
+            <p class="form-help">The initial webpage containing instructions and question dataset.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="quizSecret" class="form-label">
+              Authentication Secret <span class="req">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔑</span>
+              <input 
+                type="password" 
+                id="quizSecret" 
+                class="form-input" 
+                placeholder="Enter TDS_SECRET" 
+                required
+              >
+            </div>
+            <p class="form-help">Must match the secret key configured on the server.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="quizEmail" class="form-label">
+              User Email (Optional)
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input 
+                type="email" 
+                id="quizEmail" 
+                class="form-input" 
+                placeholder="your.email@example.com"
+              >
+            </div>
+            <p class="form-help">Used for verification payloads when required by the task.</p>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-primary">
+            <span id="btnText">Dispatch Quiz Task</span>
+            <span>⚡</span>
+          </button>
+        </form>
+
+        <!-- Dynamic Code Snippet Box -->
+        <div class="code-box">
+          <div class="code-header">
+            <div class="code-tabs">
+              <button type="button" class="code-tab active" data-lang="curl">cURL</button>
+              <button type="button" class="code-tab" data-lang="python">Python</button>
+              <button type="button" class="code-tab" data-lang="javascript">JavaScript</button>
+            </div>
+            <button type="button" id="copyBtn" class="copy-btn">
+              <span>📋 Copy</span>
+            </button>
+          </div>
+          <pre class="code-content" id="codeDisplay"></pre>
+        </div>
+      </div>
+
+      <!-- Right Column: Status & Architecture -->
+      <div style="display: flex; flex-direction: column; gap: 28px;">
+        <!-- Server Diagnostics Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📊</span>
+              <h3>System Diagnostics</h3>
+            </div>
+            <span class="card-badge">Real-time</span>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-label">Server Uptime</div>
+              <div class="stat-value" id="uptimeDisplay">--</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Primary Engine</div>
+              <div class="stat-value" style="font-size: 1.1rem; color: #a5b4fc;">Gemini 2.5 Flash</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Fallback Engine</div>
+              <div class="stat-value" style="font-size: 1.1rem; color: #38bdf8;">GPT-4o Mini</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Per-Task Timeout</div>
+              <div class="stat-value" style="font-size: 1.1rem; color: #34d399;">180s (3m)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflow Execution Diagram -->
+        <div class="glass-card" id="architecture">
+          <div class="card-header">
+            <div class="card-title">
+              <span>⚙️</span>
+              <h3>Autonomous Execution Flow</h3>
+            </div>
+          </div>
+
+          <div class="workflow-steps">
+            <div class="workflow-step">
+              <div class="step-num">1</div>
+              <div class="step-info">
+                <h4>Receive Task & Verify Auth</h4>
+                <p>Validates <code>secret</code> token and triggers <code>run_agent</code> asynchronously in background.</p>
+              </div>
+            </div>
+
+            <div class="workflow-step">
+              <div class="step-num">2</div>
+              <div class="step-info">
+                <h4>Render DOM & Extract Context</h4>
+                <p>Playwright executes dynamic JavaScript to extract forms, endpoints, and instructions.</p>
+              </div>
+            </div>
+
+            <div class="workflow-step">
+              <div class="step-num">3</div>
+              <div class="step-info">
+                <h4>Cyclic Multi-Tool Reasoning</h4>
+                <p>Executes code in Pandas/Scikit-Learn, transcribes audio, analyzes images, or charts figures.</p>
+              </div>
+            </div>
+
+            <div class="workflow-step">
+              <div class="step-num">4</div>
+              <div class="step-info">
+                <h4>Submit & Chain Next Question</h4>
+                <p>Posts answer to target endpoint; follows new URL recursively until finished (or "END").</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Tools Capabilities -->
+    <section class="section" id="tools">
+      <div class="section-header">
+        <h2 class="section-title">Built-In Agent Capabilities</h2>
+        <p class="section-subtitle">Integrated toolchain providing full-spectrum multi-modal and analytical execution.</p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-icon">🌐</div>
+          <h4>Dynamic Web Scraper</h4>
+          <p>Headless browser powered by Playwright for evaluating client-side JavaScript, rendering SPAs, and discovering hidden APIs.</p>
+          <span class="tool-badge">get_rendered_html</span>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🐍</div>
+          <h4>Python Code Sandbox</h4>
+          <p>Secure execution environment loaded with Pandas, NumPy, Scipy, Scikit-Learn, NetworkX, and PDFPlumber.</p>
+          <span class="tool-badge">run_code</span>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">👁️</div>
+          <h4>Vision OCR & Reasoning</h4>
+          <p>Multimodal Gemini Vision for reading charts, extracting diagrams, solving visual captchas, and reading embedded tables.</p>
+          <span class="tool-badge">analyze_image</span>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🎙️</div>
+          <h4>Audio Transcription</h4>
+          <p>Multi-tiered audio parser utilizing SpeechRecognition with automatic failover to Whisper and Gemini audio endpoints.</p>
+          <span class="tool-badge">transcribe_audio</span>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">📈</div>
+          <h4>Data Visualization</h4>
+          <p>Automated Matplotlib & Seaborn charting generating Base64 PNG representations for immediate HTTP payload submission.</p>
+          <span class="tool-badge">create_visualization</span>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-icon">🔄</div>
+          <h4>API Key Rotator</h4>
+          <p>Thread-safe key cycler distributing requests across multiple Google API keys with automatic failover to OpenAI.</p>
+          <span class="tool-badge">api_key_rotator.py</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Reference Section -->
+    <section class="section" id="endpoints">
+      <div class="section-header">
+        <h2 class="section-title">API Endpoints Reference</h2>
+        <p class="section-subtitle">Standardized endpoints for monitoring and programmatic integration.</p>
+      </div>
+
+      <div class="glass-card">
+        <div class="endpoints-list">
+          <!-- POST /quiz -->
+          <div class="endpoint-row">
+            <div class="endpoint-meta">
+              <span class="http-method method-post">POST</span>
+              <span class="endpoint-path">/quiz</span>
+            </div>
+            <div class="endpoint-desc">Primary endpoint to submit and trigger background quiz solving.</div>
+          </div>
+
+          <!-- POST /solve -->
+          <div class="endpoint-row">
+            <div class="endpoint-meta">
+              <span class="http-method method-post">POST</span>
+              <span class="endpoint-path">/solve</span>
+            </div>
+            <div class="endpoint-desc">Alias endpoint for compatibility with external testing harnesses.</div>
+          </div>
+
+          <!-- GET /healthz -->
+          <div class="endpoint-row">
+            <div class="endpoint-meta">
+              <span class="http-method method-get">GET</span>
+              <span class="endpoint-path">/healthz</span>
+            </div>
+            <div class="endpoint-desc">Health check endpoint returning system status and uptime seconds.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Environment Variables Guide -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Environment Variables</h2>
+        <p class="section-subtitle">Configure these variables in your <code>.env</code> file or Hugging Face Space settings.</p>
+      </div>
+
+      <div class="glass-card">
+        <div class="env-table-wrapper">
+          <table class="env-table">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Required</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="env-key">GOOGLE_API_KEY</span></td>
+                <td><strong style="color: #34d399;">Yes</strong></td>
+                <td>Primary Google Gemini API key used for agent reasoning.</td>
+              </tr>
+              <tr>
+                <td><span class="env-key">GOOGLE_API_KEY_2..4</span></td>
+                <td>Optional</td>
+                <td>Additional Gemini keys for rotation to avoid rate limits.</td>
+              </tr>
+              <tr>
+                <td><span class="env-key">OPENAI_API_KEY</span></td>
+                <td><strong style="color: #34d399;">Yes</strong></td>
+                <td>Fallback API key used if Gemini keys hit quota exhaustion.</td>
+              </tr>
+              <tr>
+                <td><span class="env-key">TDS_SECRET</span></td>
+                <td><strong style="color: #34d399;">Yes</strong></td>
+                <td>Secret token for authenticating incoming API requests.</td>
+              </tr>
+              <tr>
+                <td><span class="env-key">TDS_EMAIL</span></td>
+                <td>Optional</td>
+                <td>Email address sent alongside answer submissions.</td>
+              </tr>
+              <tr>
+                <td><span class="env-key">GITHUB_TOKEN</span></td>
+                <td>Optional</td>
+                <td>GitHub Personal Access Token for remote Gist logging.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <p>Hybrid Quiz Solver &bull; Engineered with LangGraph, FastAPI, Gemini & OpenAI</p>
+  </footer>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
