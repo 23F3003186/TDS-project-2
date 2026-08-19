@@ -312,58 +312,6 @@
       </div>
     </section>
 
-    <!-- Environment Variables Guide -->
-    <section class="section">
-      <div class="section-header">
-        <h2 class="section-title">Environment Variables</h2>
-        <p class="section-subtitle">Configure these variables in your <code>.env</code> file or Hugging Face Space settings.</p>
-      </div>
-
-      <div class="glass-card">
-        <div class="env-table-wrapper">
-          <table class="env-table">
-            <thead>
-              <tr>
-                <th>Variable</th>
-                <th>Required</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="env-key">GOOGLE_API_KEY</span></td>
-                <td><strong style="color: #34d399;">Yes</strong></td>
-                <td>Primary Google Gemini API key used for agent reasoning.</td>
-              </tr>
-              <tr>
-                <td><span class="env-key">GOOGLE_API_KEY_2..4</span></td>
-                <td>Optional</td>
-                <td>Additional Gemini keys for rotation to avoid rate limits.</td>
-              </tr>
-              <tr>
-                <td><span class="env-key">OPENAI_API_KEY</span></td>
-                <td><strong style="color: #34d399;">Yes</strong></td>
-                <td>Fallback API key used if Gemini keys hit quota exhaustion.</td>
-              </tr>
-              <tr>
-                <td><span class="env-key">TDS_SECRET</span></td>
-                <td><strong style="color: #34d399;">Yes</strong></td>
-                <td>Secret token for authenticating incoming API requests.</td>
-              </tr>
-              <tr>
-                <td><span class="env-key">TDS_EMAIL</span></td>
-                <td>Optional</td>
-                <td>Email address sent alongside answer submissions.</td>
-              </tr>
-              <tr>
-                <td><span class="env-key">GITHUB_TOKEN</span></td>
-                <td>Optional</td>
-                <td>GitHub Personal Access Token for remote Gist logging.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </section>
   </main>
 
